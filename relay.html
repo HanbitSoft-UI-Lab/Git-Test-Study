@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<style type="text/css">
+div{width:30px;height:50px;margin-top:10px;background-color:red;}
+</style>
+</head>
+<body>
+<div id="move_layer"></div>
+<script type="text/javascript">
+
+window.isPlay = false;
+var args = [];
+var n = 0;
+
+var scene01 = statScene01(500);
+var scene02 = statScene02(1000);
+var scene03 = statScene03(1500);
+var scene04 = statScene04(300);
+var scene05 = statScene05(3000);
+
+relay(scene01, scene02, scene03, scene04, scene05);//인수로 받는 각 함수들이 왼쪽 부터 순차적으로 실행 됨.
+
+function statScene01(speed){
+	return function(afterfunc){
+		$("#move_layer").animate({"width":"100%"},speed,function(){
+			afterfunc ? afterfunc() : ""
+		});
+	}
+}
+function statScene02(speed){
+	return function(afterfunc){
+		$("#move_layer").animate({"width":"3%"},speed,function(){
+			afterfunc ? afterfunc() : ""
+		});
+	}
+}
+function statScene03(speed){
+	return function(afterfunc){
+		$("#move_layer").animate({"width":"50%"},speed,function(){
+			afterfunc ? afterfunc() : ""
+		});
+	}
+}
+function statScene04(speed){
+	return function(afterfunc){
+		$("#move_layer").animate({"width":"10%"},speed,function(){
+			afterfunc ? afterfunc() : ""
+		});
+	}
+}
+function statScene05(speed){
+	return function(afterfunc){
+		$("#move_layer").animate({"width":"90%"},speed,function(){
+			afterfunc ? afterfunc() : ""
+		});
+	}
+}
+function relay(funcs){
+	if(args.length == 0){
+		for(var i = 0; i < arguments.length; i++){
+			args[i] = arguments[i]
+		}
+	}
+	return (function(){
+		if(args[n]){
+			args[n](relay);
+			n++
+		}
+	})();
+}
+
+</script>
+</body>
+</html>
