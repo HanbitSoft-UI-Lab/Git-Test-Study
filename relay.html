@@ -15,22 +15,62 @@ div{width:30px;height:50px;margin-top:10px;background-color:red;}
 window.isPlay = false;
 var args = [];
 var n = 0;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var scene01 = statScene(500,"100%");
-var scene02 = statScene(1000,"3%");
-var scene03 = statScene(1500,"50%");
-var scene04 = statScene(300,"10%");
-var scene05 = statScene(3000,"90%");
+var arrStat = [[500,"100%"], [1000,"3%"], [1000,"50%"], [1000,"10%"], [1000,"90%"]];
+var scene = [];
 
-relay(scene01, scene02, scene03, scene04, scene05);//인수로 받는 각 함수들이 왼쪽 부터 순차적으로 실행 됨.
-
-function statScene(speed,width){
-	return function(afterfunc){
-		$("#move_layer").animate({"width":width},speed,function(){
-			afterfunc ? afterfunc() : ""
-		});
-	}
+for(var i=0; i < arrStat.length; i++){
+	scene[i] = (function(speed,width){
+		return function(afterfunc){
+			$("#move_layer").animate({"width":width},speed,function(){
+				afterfunc ? afterfunc() : ""
+			});
+		}
+	})(arrStat[i][0], arrStat[i][1])
 }
+
+relay(scene[0], scene[1], scene[2], scene[3], scene[4]);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// for(var i=0; i < arrStat.length; i++){
+// 	scene[i] = statScene(arrStat[i][0], arrStat[i][1]);
+// }
+
+// relay(scene[0], scene[1], scene[2], scene[3], scene[4]);//인수로 받는 각 함수들이 왼쪽 부터 순차적으로 실행 됨.
+
+// function statScene(speed,width){
+// 	return function(afterfunc){
+// 		$("#move_layer").animate({"width":width},speed,function(){
+// 			afterfunc ? afterfunc() : ""
+// 		});
+// 	}
+// }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// var scene01 = statScene(500,"100%");
+// var scene02 = statScene(1000,"3%");
+// var scene03 = statScene(1500,"50%");
+// var scene04 = statScene(300,"10%");
+// var scene05 = statScene(3000,"90%");
+// relay(scene01, scene02, scene03, scene04, scene05);//인수로 받는 각 함수들이 왼쪽 부터 순차적으로 실행 됨.
+
+// function statScene(speed,width){
+// 	return function(afterfunc){
+// 		$("#move_layer").animate({"width":width},speed,function(){
+// 			afterfunc ? afterfunc() : ""
+// 		});
+// 	}
+// }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function relay(funcs){
 	if(args.length == 0){
 		for(var i = 0; i < arguments.length; i++){
